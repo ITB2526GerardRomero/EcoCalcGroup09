@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCalcITB | Technology Studies Center</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        eco: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            900: '#14532d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-eco-100 flex items-center justify-center text-eco-600">
+                    <i class="fa-solid fa-leaf text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-xl text-slate-800 tracking-tight">EcoCalcITB</h1>
+                    <p class="text-xs text-slate-500 font-medium">Technology Studies Center</p>
+                </div>
+            </div>
+            <div class="hidden sm:flex items-center gap-2 text-sm font-medium text-eco-700 bg-eco-50 px-4 py-2 rounded-full border border-eco-100">
+                <i class="fa-solid fa-bullseye"></i> Our Goal: Reduce by 30%
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <!-- Objective Banner (Mobile) -->
+        <div class="sm:hidden mb-6 bg-eco-50 border border-eco-200 rounded-lg p-4 flex items-center gap-3 text-eco-700">
+            <i class="fa-solid fa-bullseye text-xl"></i>
+            <div>
+                <p class="font-bold text-sm">Global Objective</p>
+                <p class="text-xs">Reduce our overall consumption by 30%.</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Column: Inputs -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <!-- Date Configuration -->
+                <section class="glass-card rounded-2xl p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center justify-between gap-2">
+                        <div><i class="fa-regular fa-calendar text-slate-400"></i> Registration Period</div>
+                        <span id="days-count" class="text-sm font-medium bg-eco-100 text-eco-700 px-3 py-1 rounded-full"></span>
+                    </h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-600">Start Date</label>
+                            <input type="date" id="start-date-input" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-lg focus:ring-eco-500 focus:border-eco-500 block p-2.5 transition-colors">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-600">End Date</label>
+                            <input type="date" id="end-date-input" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-lg focus:ring-eco-500 focus:border-eco-500 block p-2.5 transition-colors">
+                        </div>
+                    </div>
+                    <div id="seasonal-insights" class="mt-4 text-xs p-3 bg-indigo-50 text-indigo-800 rounded-lg border border-indigo-100 hidden transition-all">
+                        <i class="fa-solid fa-chart-line mr-1"></i> <span id="seasonal-text"></span>
+                    </div>
+                </section>
+
+                <!-- Resource Inputs -->
+                <section class="glass-card rounded-2xl p-6 shadow-sm">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-lg font-semibold flex items-center gap-2">
+                            <i class="fa-solid fa-chart-bar text-slate-400"></i> Consumption Data
+                        </h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Electricidad -->
+                        <div class="p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:border-yellow-200 transition-colors">
+                            <h3 class="font-medium text-slate-800 flex items-center gap-2 mb-3">
+                                <i class="fa-solid fa-bolt text-yellow-500"></i> Electricity
+                            </h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs text-slate-500 block mb-1">Daily Avg. (kWh)</label>
+                                    <input type="number" id="elec-qty" value="0" min="0" class="data-input w-full bg-white border border-slate-200 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 p-2">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500 block mb-1">Unit Cost (€/kWh)</label>
+                                    <input type="number" id="elec-cost" value="0" min="0" step="0.01" class="data-input w-full bg-white border border-slate-200 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 p-2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Agua -->
+                        <div class="p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:border-blue-200 transition-colors">
+                            <h3 class="font-medium text-slate-800 flex items-center gap-2 mb-3">
+                                <i class="fa-solid fa-droplet text-blue-500"></i> Water
+                            </h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs text-slate-500 block mb-1">Daily Avg. (Liters)</label>
+                                    <input type="number" id="water-qty" value="425" min="0" class="data-input w-full bg-white border border-slate-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500 block mb-1">Unit Cost (€/L)</label>
+                                    <input type="number" id="water-cost" value="0.85" min="0" step="0.001" class="data-input w-full bg-white border border-slate-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Material Oficina -->
+                        <div class="p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:border-purple-200 transition-colors">
+                            <h3 class="font-medium text-slate-800 flex items-center gap-2 mb-3">
+                                <i class="fa-solid fa-paperclip text-purple-500"></i> Office Supplies
+                            </h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs text-slate-500 block mb-1">Daily Avg. Units</label>
+                                    <input type="number" id="office-qty" value="6" min="0" class="data-input w-full bg-white border border-slate-200 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 p-2">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500 block mb-1">Avg Cost (€/unit)</label>
+                                    <input type="number" id="office-cost" value="348" min="0" step="0.01" class="data-input w-full bg-white border border-slate-200 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 p-2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:border-teal-200 transition-colors">
+                            <h3 class="font-medium text-slate-800 flex items-center gap-2 mb-3">
+                                <i class="fa-solid fa-spray-can text-teal-500"></i> Cleaning Products
+                            </h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs text-slate-500 block mb-1">Daily Avg. Units</label>
+                                    <input type="number" id="clean-qty" value="30" min="0" class="data-input w-full bg-white border border-slate-200 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 p-2">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500 block mb-1">Avg Cost (€/unit)</label>
+                                    <input type="number" id="clean-cost" value="198.50" min="0" step="0.1" class="data-input w-full bg-white border border-slate-200 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 p-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="lg:col-span-7 space-y-6">
+                
+                <div class="glass-card rounded-2xl p-5 shadow-sm border-l-4 border-l-eco-500 flex flex-col gap-4">
+                    <div>
+                        <h3 class="font-bold text-slate-800">3-Year Progressive Goal Simulator</h3>
+                        <p class="text-sm text-slate-500">Targeting special reduction in Water, Paper, and Materials.</p>
+                    </div>
+                    
+                    <div class="relative w-full">
+                        <input type="range" id="timeline-slider" min="0" max="3" value="3" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-eco-600">
+                        <div class="flex justify-between text-xs text-slate-500 mt-2 px-1 font-medium">
+                            <span>Current (0%)</span>
+                            <span>Year 1 (-10%)</span>
+                            <span>Year 2 (-20%)</span>
+                            <span>Year 3 (-30%)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-slate-800 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 rounded-full bg-white opacity-5"></div>
+                        <p class="text-slate-400 text-sm font-medium mb-1">Total Calculated Cost</p>
+                        <h2 class="text-4xl font-bold tracking-tight mb-2" id="total-cost">0.00 €</h2>
+                        <div class="flex items-center gap-2 text-sm text-eco-400 bg-slate-900/50 inline-flex px-3 py-1 rounded-full" id="savings-badge">
+                            <i class="fa-solid fa-arrow-down"></i> <span id="savings-amount">0.00 €</span> saved
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6 shadow-sm flex flex-col justify-center">
+                        <p class="text-slate-500 text-sm font-medium mb-3">Cost Distribution</p>
+                        <div class="w-full bg-slate-100 rounded-full h-4 flex overflow-hidden" id="cost-bar">
+                        </div>
+                        <div class="flex justify-between mt-3 text-xs text-slate-500" id="cost-legend">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-sm font-semibold text-slate-700 mb-4 text-center">Cost Breakdown (€)</h3>
+                        <div class="relative h-48 w-full flex justify-center">
+                            <canvas id="costDoughnutChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-sm font-semibold text-slate-700 mb-4 text-center">Consumption vs Target</h3>
+                        <div class="relative h-48 w-full">
+                            <canvas id="targetBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="glass-card rounded-2xl p-6 shadow-sm">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-yellow-500"></i> Action Plan Simulator
+                        </h2>
+                        <div class="text-sm bg-eco-100 text-eco-700 px-3 py-1 rounded-full font-medium">
+                            Projected Savings: <span id="action-savings-total">0.00 €</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-500 mb-4">Select the actions you plan to implement to see their estimated impact.</p>
+                    
+                    <div class="space-y-4 text-sm text-slate-600">
+                        <details class="group bg-slate-50 rounded-lg p-4 cursor-pointer" open>
+                            <summary class="font-medium text-slate-800 list-none flex justify-between items-center">
+                                <span><i class="fa-solid fa-bolt text-yellow-500 mr-2"></i> Electrical Optimization</span>
+                                <i class="fa-solid fa-chevron-down transition-transform group-open:rotate-180 text-slate-400"></i>
+                            </summary>
+                            <div class="mt-3 pl-6 border-l-2 border-yellow-200 space-y-2 flex flex-col gap-2">
+                                <label class="flex items-start gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-200">
+                                    <input type="checkbox" class="action-cb mt-1 rounded text-yellow-500 focus:ring-yellow-500 w-4 h-4" data-category="elec" data-saving="0.10">
+                                    <div class="flex-1">
+                                        <span class="text-sm font-medium text-slate-700 block">Turn off monitors and equipment at the end of the academic day.</span>
+                                        <span class="text-xs text-yellow-700 font-medium bg-yellow-100 px-2 py-0.5 rounded mt-1 inline-block">-10% Electricity</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-200">
+                                    <input type="checkbox" class="action-cb mt-1 rounded text-yellow-500 focus:ring-yellow-500 w-4 h-4" data-category="elec" data-saving="0.10">
+                                    <div class="flex-1">
+                                        <span class="text-sm font-medium text-slate-700 block">Configure lab computers to "Power Saving" mode.</span>
+                                        <span class="text-xs text-yellow-700 font-medium bg-yellow-100 px-2 py-0.5 rounded mt-1 inline-block">-10% Electricity</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-200">
+                                    <input type="checkbox" class="action-cb mt-1 rounded text-yellow-500 focus:ring-yellow-500 w-4 h-4" data-category="elec" data-saving="0.10">
+                                    <div class="flex-1">
+                                        <span class="text-sm font-medium text-slate-700 block">Maximize natural light in classrooms and install motion sensors.</span>
+                                        <span class="text-xs text-yellow-700 font-medium bg-yellow-100 px-2 py-0.5 rounded mt-1 inline-block">-10% Electricity</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </details>
+
+                        <details class="group bg-slate-50 rounded-lg p-4 cursor-pointer">
+                            <summary class="font-medium text-slate-800 list-none flex justify-between items-center">
+                                <span><i class="fa-solid fa-droplet text-blue-500 mr-2"></i> Water Management</span>
+                                <i class="fa-solid fa-chevron-down transition-transform group-open:rotate-180 text-slate-400"></i>
+                            </summary>
+                            <div class="mt-3 pl-6 border-l-2 border-blue-200 space-y-2 flex flex-col gap-2">
+                                <label class="flex items-start gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-200">
+                                    <input type="checkbox" class="action-cb mt-1 rounded text-blue-500 focus:ring-blue-500 w-4 h-4" data-category="water" data-saving="0.15">
+                                    <div class="flex-1">
+                                        <span class="text-sm font-medium text-slate-700 block">Install aerators on all bathroom faucets.</span>
+                                        <span class="text-xs text-blue-700 font-medium bg-blue-100 px-2 py-0.5 rounded mt-1 inline-block">-15% Water</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-200">
+                                    <input type="checkbox" class="action-cb mt-1 rounded text-blue-500 focus:ring-blue-500 w-4 h-4" data-category="water" data-saving="0.05">
+                                    <div class="flex-1">
+                                        <span class="text-sm font-medium text-slate-700 block">Immediately report leaking toilets/cisterns to maintenance.</span>
+                                        <span class="text-xs text-blue-700 font-medium bg-blue-100 px-2 py-0.5 rounded mt-1 inline-block">-5% Water</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-200">
+                                    <input type="checkbox" class="action-cb mt-1 rounded text-blue-500 focus:ring-blue-500 w-4 h-4" data-category="water" data-saving="0.10">
+                                    <div class="flex-1">
+                                        <span class="text-sm font-medium text-slate-700 block">Optimize watering cycles for campus green areas.</span>
+                                        <span class="text-xs text-blue-700 font-medium bg-blue-100 px-2 py-0.5 rounded mt-1 inline-block">-10% Water</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </details>
+
+                        <details class="group bg-slate-50 rounded-lg p-4 cursor-pointer">
+                            <summary class="font-medium text-slate-800 list-none flex justify-between items-center">
+                                <span><i class="fa-solid fa-recycle text-purple-500 mr-2"></i> Supplies and Cleaning</span>
+                                <i class="fa-solid fa-chevron-down transition-transform group-open:rotate-180 text-slate-400"></i>
+                            </summary>
+                            <div class="mt-3 pl-6 border-l-2 border-purple-200 space-y-2 flex flex-col gap-2">
+                                <label class="flex items-start gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-200">
+                                    <input type="checkbox" class="action-cb mt-1 rounded text-purple-500 focus:ring-purple-500 w-4 h-4" data-category="office" data-saving="0.15">
+                                    <div class="flex-1">
+                                        <span class="text-sm font-medium text-slate-700 block">Digitize assignment submissions and enrollment (paperless).</span>
+                                        <span class="text-xs text-purple-700 font-medium bg-purple-100 px-2 py-0.5 rounded mt-1 inline-block">-15% Office Supplies</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-200">
+                                    <input type="checkbox" class="action-cb mt-1 rounded text-purple-500 focus:ring-purple-500 w-4 h-4" data-category="office" data-saving="0.15">
+                                    <div class="flex-1">
+                                        <span class="text-sm font-medium text-slate-700 block">Implement a default "double-sided printing" policy.</span>
+                                        <span class="text-xs text-purple-700 font-medium bg-purple-100 px-2 py-0.5 rounded mt-1 inline-block">-15% Office Supplies</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-200">
+                                    <input type="checkbox" class="action-cb mt-1 rounded text-teal-500 focus:ring-teal-500 w-4 h-4" data-category="clean" data-saving="0.20">
+                                    <div class="flex-1">
+                                        <span class="text-sm font-medium text-slate-700 block">Reduce emergency purchases by planning constant maintenance.</span>
+                                        <span class="text-xs text-teal-700 font-medium bg-teal-100 px-2 py-0.5 rounded mt-1 inline-block">-20% Cleaning/Materials</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-start gap-3 p-2 hover:bg-white rounded-lg cursor-pointer transition-colors border border-transparent hover:border-slate-200">
+                                    <input type="checkbox" class="action-cb mt-1 rounded text-teal-500 focus:ring-teal-500 w-4 h-4" data-category="clean" data-saving="0.10">
+                                    <div class="flex-1">
+                                        <span class="text-sm font-medium text-slate-700 block">Train staff on optimal chemical usage quantities.</span>
+                                        <span class="text-xs text-teal-700 font-medium bg-teal-100 px-2 py-0.5 rounded mt-1 inline-block">-10% Cleaning/Materials</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </details>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-slate-500">
+            <p>EcoCalcITB © <span id="current-year"></span> | Designed for a sustainable future. <br> Made by Gerard and Elian</p>
+        </div>
+    </footer>
+
+    <script src="/javascript/script.js" defer></script>
+
+</body>
+</html>

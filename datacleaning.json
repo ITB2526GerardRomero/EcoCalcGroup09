@@ -1,0 +1,27 @@
+[
+  {
+    "Indicator": "Water",
+    "Date": "28/02/2025, 10:00",
+    "LitersUsed": 425,
+    "Price": 0.85
+  },
+  {
+    "Indicator": "Different materials",
+    "Date": "20/06/2024",
+    "Use": "Hygiene",
+    "Price": 750
+  },
+  {
+    "Indicator": "Urgency materials",
+    "Date": "05/07/2024",
+    "Use": "Urgent maintenance",
+    "Price": 348
+  },
+  {
+    "Indicator": "Paper",
+    "Date": "31/10/2024 - 20/11/2024",
+    "Quantity": 30,
+    "Unit": "packet",
+    "Price": 198.5
+  }
+]
